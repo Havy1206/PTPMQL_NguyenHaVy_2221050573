@@ -42,7 +42,15 @@
 </form>
 
 <p>To select multiple files, hold down the CTRL or SHIFT key while selecting.</p>
+<h1>The input pattern attribute</h1>
 
+<p>The pattern attribute specifies a regular expression that the input element's value is checked against.</p>
+
+<form action="/action_page.php">
+  <label for="country_code">Country code:</label>
+  <input type="text" id="country_code" name="country_code" pattern="[A-Za-z]{3}" title="Three letter country code"><br><br>
+  <input type="submit" value="Submit">
+</form>
 </body>
 </html>
 
