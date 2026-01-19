@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+        body {
+            font-family: sans-serif;
+            padding: 50px;
+        }
+
+        /* --- CÁI QUAN TRỌNG NHẤT Ở ĐÂY --- */
+        .rounded-circle {
+            /* 1. Đây chính là MÀU của khoảng trống giữa các ảnh */
+            background-color: green; /* Màu xám đen */
+            
+            /* 2. Dùng Flex để xếp ảnh nằm ngang */
+            display: flex; 
+            
+            /* 3. Tạo khoảng hở giữa các ảnh (20px) -> Chỗ này sẽ lòi màu nền ra */
+            gap: 20px; 
+            
+            /* 4. Thêm đệm xung quanh nếu muốn viền ngoài cũng có màu */
+            padding: 20px; 
+            
+            /* Bo góc cho đẹp */
+            border-radius: 12px;
+            width: fit-content; /* Co khung lại vừa nội dung */
+        }
+
+        .anh-con {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            /* Thêm viền trắng mỏng cho ảnh nổi bật trên nền tối */
+            border: 2px solid white; 
+        }
+
+        /*khung-neon Ví dụ 2: Màu neon */
+        .float-start , .float-end, .mx-auto d-block {
+           background-color: pink;
+            display: flex;
+            gap: 10px; 
+            padding: 10px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            width: fit-content;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>BS5 Images - NguyenHaVy_2221050573</h1>
+
+    <div class="container mt-3">
+        <!--Lớp này .rounded thêm các góc bo tròn vào hình ảnh:-->
+        <h2>Rounded Corners</h2>
+        <p>The .rounded class adds rounded corners to an image:</p>            
+        <img src="https://i.pinimg.com/736x/51/d6/da/51d6daa83766c7e203b28d81320aeeab.jpg" class="rounded" alt="Cinque Terre" width="304" height="236"> <br><br>
+    
+        <!--Lớp này .rounded-circle định hình hình ảnh thành hình tròn:-->
+        <img src="https://i.pinimg.com/1200x/9f/da/00/9fda00982abbedf79f06ee1a5d5ece44.jpg" class="rounded-circle" alt="Cinque Terre"><br><br>
+
+        <!--Lớp này .img-thumbnail định hình hình ảnh thành hình thu nhỏ (có viền):-->
+        <img src="https://i.pinimg.com/736x/e3/ea/ac/e3eaacd3fa15260f80d78d7b0b6dc5a6.jpg" class="img-thumbnail" alt="Cinque Terre"><br><br>
+
+        
+        <img src="https://i.pinimg.com/736x/11/92/fd/1192fdf377f2d14b20c4dc4a3c02a11e.jpg" class="float-start">
+        <img src="https://i.pinimg.com/736x/c8/20/2f/c8202f1ec8627eeb5bbb61147859650d.jpg" class="float-end"><br><br>
+
+        <!--Căn giữa hình ảnh bằng cách thêm các lớp tiện ích .mx-auto(margin:auto) và .d-block(display:block) vào hình ảnh:-->
+        <img src="https://i.pinimg.com/1200x/17/2d/3c/172d3c593396d890b2134e3c4409df1c.jpg" class="mx-auto d-block"><br><br>
+
+        <!--Hình ảnh có đủ mọi kích cỡ. Màn hình cũng vậy. Hình ảnh phản hồi tự động điều chỉnh để phù hợp với kích thước màn hình.
+        Tạo hình ảnh phản hồi bằng cách thêm một .img-fluidlớp vào <img>thẻ. Sau đó, hình ảnh sẽ tự động co giãn theo phần tử cha.
+        Lớp này .img-fluidáp dụng max-width: 100%;cho height: auto;hình ảnh-->
+        <img class="img-fluid" src="https://i.pinimg.com/736x/7b/b8/ba/7bb8ba9bf65a9fed0c6f0bd90aff24a0.jpg" alt="New York"><br><br>
+
+    </div>
+<div class="container mt-3" style="background-color: pink;">
+  <h2>Aligning images</h2>
+  <p>Use the float classes to float the image to the left or to the right:</p> 
+  <img src="https://i.pinimg.com/736x/5a/6f/24/5a6f2429513713a80d76931fa302aa1f.jpg" class="float-start" alt="Paris" width="304" height="236" >
+  <img src="https://i.pinimg.com/736x/5a/6f/24/5a6f2429513713a80d76931fa302aa1f.jpg" class="float-end" alt="Paris" width="304" height="236"  >
+</div>
+  
+<div class="container mt-3">
+  <h2>Centered Image</h2>
+  <p>Center an image by adding the utility classes .mx-auto (margin:auto) and .d-block (display:block) to the image:</p> 
+  <img src="https://i.pinimg.com/736x/5b/99/25/5b9925f01f771c5b53fc3508ff4f382e.jpg" class="mx-auto d-block" style="width:50%"> 
+</div>
+</body>
+</html>
