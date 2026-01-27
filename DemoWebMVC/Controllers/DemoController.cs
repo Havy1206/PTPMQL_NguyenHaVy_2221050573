@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using DemoMVC.Models;
+using DemoWebMVC.Models;
 
-namespace DemoMVC.Controllers;
+namespace DemoWebMVC.Controllers;
 
 public class DemoController : Controller
 {

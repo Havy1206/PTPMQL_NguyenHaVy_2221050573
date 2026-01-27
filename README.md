@@ -94,7 +94,7 @@ URL: /Student -> Gọi StudentController, hàm Index.
 
 URL: /Student/Edit/5 -> Gọi StudentController, hàm Edit, tham số id = 5.
 
-3. Controller và View trong .NET MVC
+4. Controller và View trong .NET MVC
 Đây là hai thành phần tương tác trực tiếp để tạo ra phản hồi cho người dùng.
 
 A.Controller (Bộ điều khiển)
@@ -157,3 +157,171 @@ Controller trả về một View cụ thể.
 
 View render ra mã HTML và gửi trả về trình duyệt cho User.
 ---
+
+//Baitapthuchanhso4 _ NguyenHaVy_2221050573
+
+1. Tìm hiểu về ViewBag trong MVC
+ViewBag là một đối tượng dynamic (động) được sử dụng để truyền dữ liệu nhỏ, tạm thời từ Controller sang View.
+
+Đặc điểm:
+
+Không cần khai báo kiểu dữ liệu trước (Weakly typed).
+
+Đời sống ngắn (chỉ tồn tại trong request hiện tại). Khi chuyển hướng trang (Redirect), dữ liệu trong ViewBag sẽ mất.
+
+Thực chất là một lớp bao bọc (wrapper) quanh ViewData.
+
+Ví dụ sử dụng ViewBag:
+
+Controller (HomeController.cs):
+
+C#
+public IActionResult DemoViewBag()
+{
+    // Gán dữ liệu vào ViewBag
+    ViewBag.ThongBao = "Dữ liệu này được gửi từ Controller!";
+    ViewBag.NgayHienTai = DateTime.Now;
+    
+    return View();
+}
+View (DemoViewBag.cshtml):
+
+HTML
+@{
+    ViewData["Title"] = "Demo ViewBag";
+}
+
+<h2>@ViewBag.ThongBao</h2>
+<p>Thời gian server: @ViewBag.NgayHienTai</p>
+2. Gửi nhận dữ liệu qua Form (View ↔ Controller)
+Cơ chế hoạt động như sau:
+
+View: Người dùng nhập liệu vào Form HTML và nhấn Submit.
+
+Request: Dữ liệu được gửi đi (thường là phương thức POST).
+
+Controller: Action nhận tham số có tên trùng với name của thẻ input trong Form (cơ chế Model Binding).
+
+Ví dụ: Nhập họ tên và hiển thị lời chào
+
+Controller (HomeController.cs):
+
+C#
+// 1. Action GET để hiển thị form nhập liệu
+[HttpGet]
+public IActionResult NhapTen()
+{
+    return View();
+}
+
+// 2. Action POST để xử lý dữ liệu gửi lên
+[HttpPost]
+public IActionResult NhapTen(string hoTen) // Tên tham số phải trùng name bên View
+{
+    // Xử lý dữ liệu
+    string ketQua = "Xin chào " + hoTen;
+
+    // Gửi kết quả lại View để hiển thị
+    ViewBag.LoiChao = ketQua;
+
+    return View();
+}
+View (NhapTen.cshtml):
+
+HTML
+<form method="post" action="/Home/NhapTen">
+    <label>Nhập họ tên của bạn:</label>
+    <input type="text" name="hoTen" class="form-control" />
+    <br />
+    <button type="submit" class="btn btn-primary">Gửi</button>
+</form>
+
+<hr />
+@if (ViewBag.LoiChao != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.LoiChao
+    </div>
+}
+3. Tìm hiểu về Models và tạo class Student
+Models đại diện cho dữ liệu của ứng dụng. Sử dụng Model giúp mã nguồn rõ ràng, chặt chẽ (Strongly typed) và tận dụng được các tính năng hỗ trợ code của IDE.
+
+Tạo Class Student: Thông thường, bạn sẽ tạo file này trong thư mục Models.
+
+C#
+namespace TenProjectCuaBan.Models
+{
+    public class Student
+    {
+        public string StudentCode { get; set; } // Mã sinh viên
+        public string FullName { get; set; }    // Họ tên đầy đủ
+    }
+}
+4. Gửi nhận dữ liệu kiểu Student (Controller ↔ View)
+Thay vì gửi từng biến rời rạc, chúng ta sẽ gửi cả một đối tượng Student.
+
+Controller (StudentController.cs):
+
+C#
+using Microsoft.AspNetCore.Mvc;
+using TenProjectCuaBan.Models; // Nhớ using namespace chứa Model
+
+public class StudentController : Controller
+{
+    // GET: Hiển thị form đăng ký
+    [HttpGet]
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    // POST: Nhận dữ liệu Student từ form
+    [HttpPost]
+    public IActionResult Index(Student sv)
+    {
+        // Controller tự động map dữ liệu form vào object sv
+        
+        // Giả sử xử lý xong, gửi lại view để xác nhận
+        ViewBag.Message = $"Đã nhận thông tin: {sv.FullName} - MSV: {sv.StudentCode}";
+        
+        // Trả về view cùng với model vừa nhận (để hiển thị lại trên form nếu cần)
+        return View(sv);
+    }
+}
+View (Student/Index.cshtml): Chúng ta sử dụng Tag Helpers (asp-for) của ASP.NET Core để liên kết input với thuộc tính của Model.
+
+HTML
+@model TenProjectCuaBan.Models.Student 
+<h2>Đăng ký sinh viên</h2>
+
+@if(ViewBag.Message != null)
+{
+    <div class="alert alert-info">@ViewBag.Message</div>
+}
+
+<form asp-action="Index" method="post">
+    <div class="form-group">
+        <label>Mã Sinh Viên:</label>
+        <input asp-for="StudentCode" class="form-control" />
+    </div>
+    
+    <div class="form-group">
+        <label>Họ và Tên:</label>
+        <input asp-for="FullName" class="form-control" />
+    </div>
+    <br/>
+    <button type="submit" class="btn btn-success">Lưu thông tin</button>
+</form>
+5. Tìm hiểu về Layout và Điều hướng
+Layout (bố cục) là file mẫu chung cho các trang web (thường chứa Header, Footer, Menu). Nó giúp tránh việc lặp lại mã HTML ở mọi trang (nguyên tắc DRY - Don't Repeat Yourself).
+
+File Layout mặc định thường nằm ở: Views/Shared/_Layout.cshtml.
+
+Bổ sung điều hướng tới StudentController:
+
+Bạn mở file _Layout.cshtml, tìm đến phần thẻ <ul> chứa menu điều hướng và thêm đoạn code sau:
+
+HTML
+<li class="nav-item">
+    <a class="nav-link text-dark" asp-controller="Student" asp-action="Index">Quản lý Sinh viên</a>
+</li>

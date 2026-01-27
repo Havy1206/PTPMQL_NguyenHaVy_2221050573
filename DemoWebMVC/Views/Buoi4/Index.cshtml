@@ -1,0 +1,15 @@
+
+<h2>@ViewBag.Message</h2>
+<form method="post">
+    <label>Nhập họ tên (vy_2221050573):</label>
+    <input type="text" name="hoTen" />
+
+    <br /><br />
+
+    <button type="submit">Gửi</button>
+</form>
+
+@if (ViewBag.LoiChao!= null)
+{
+    <h3>@ViewBag.LoiChao</h3>
+}
