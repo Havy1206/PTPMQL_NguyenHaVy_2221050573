@@ -1,0 +1,25 @@
+@model DemoMVC.Models.Entities.Student
+
+<h2>Xác nhận xóa sinh viên</h2>
+<h3 class="text-danger">Bạn có chắc chắn muốn xóa bản ghi này không?</h3>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Mã sinh viên:</dt>
+        <dd class="col-sm-9">@Model.StudentCode</dd>
+
+        <dt class="col-sm-3">Họ và Tên:</dt>
+        <dd class="col-sm-9">@Model.FullName</dd>
+        
+        <dt class="col-sm-3">Tuổi:</dt>
+        <dd class="col-sm-9">@Model.Age</dd>
+    </dl>
+    
+    <form asp-action="Delete" method="post">
+        @* Giữ lại StudentCode để Controller biết cần xóa ai *@
+        <input type="hidden" asp-for="StudentCode" />
+        <input type="submit" value="Xác nhận Xóa" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+    </form>
+</div>

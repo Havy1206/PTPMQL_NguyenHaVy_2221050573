@@ -1,24 +1,25 @@
 @model DemoMVC.Models.Entities.Student
 
-<h2>Thêm sinh viên mới</h2>
+<h2>Chỉnh sửa Sinh viên</h2>
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Edit" method="post">
+            @* Dòng này cực kỳ quan trọng để giữ ID khi gửi lên Controller *@
+            <input type="hidden" asp-for="StudentCode" />
+
             <div class="form-group">
-                <label class="control-label">Mã sinh viên</label>
-                <input asp-for="StudentCode" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">Họ và Tên</label>
+                <label>Họ và Tên</label>
                 <input asp-for="FullName" class="form-control" />
             </div>
+
             <div class="form-group">
-                <label class="control-label">Tuổi</label>
+                <label>Tuổi</label>
                 <input asp-for="Age" class="form-control" />
             </div>
+
             <div class="form-group mt-3">
-                <input type="submit" value="Lưu lại" class="btn btn-primary" />
+                <button type="submit" class="btn btn-success">Cập nhật</button>
                 <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
             </div>
         </form>

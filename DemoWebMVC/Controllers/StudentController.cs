@@ -58,16 +58,38 @@ namespace DemoWebMVC.Controllers
             return View(std);
         }
 
-        // --- 4. XÓA (Delete) ---
-        public IActionResult Delete(string id)
-        {
-            var std = _context.Students.Find(id);
-            if (std != null)
-            {
-                _context.Students.Remove(std);
-                _context.SaveChanges();
-            }
-            return RedirectToAction("Index");
-        }
+     // --- 4. XÓA (Delete) ---
+
+// Bước 1: Lấy thông tin sinh viên và hiển thị trang xác nhận (GET)
+[HttpGet]
+public IActionResult Delete(string id)
+{
+    if (id == null) return NotFound();
+
+    // Tìm sinh viên trong CSDL bằng khóa chính (StudentCode)
+    var std = _context.Students.Find(id);
+    
+    if (std == null) return NotFound();
+
+    // Trả về View Delete.cshtml cùng dữ liệu sinh viên đó
+    return View(std);
+}
+
+// Bước 2: Thực hiện xóa sau khi người dùng bấm nút "Xác nhận Xóa" (POST)
+[HttpPost, ActionName("Delete")]
+[ValidateAntiForgeryToken] // Bảo mật chống giả mạo request
+public IActionResult DeleteConfirmed(string id)
+{
+    var std = _context.Students.Find(id);
+    if (std != null)
+    {
+        _context.Students.Remove(std);
+        _context.SaveChanges();
     }
+    
+    // Xóa xong quay về trang danh sách
+    return RedirectToAction(nameof(Index));
+}
+    }
+
 }

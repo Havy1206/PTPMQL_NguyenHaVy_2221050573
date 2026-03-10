@@ -22,7 +22,7 @@
                     <td>@std.Age</td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@std.StudentCode">Sửa</a> |
-                        <a asp-action="Delete" asp-route-id="@std.StudentCode" onclick="return confirm('Xóa?')">Xoá</a>
+                        <a asp-action="Delete" asp-route-id="@std.StudentCode" class="btn btn-outline-danger btn-sm">Xóa</a>
                     </td>
                 </tr>
             }
