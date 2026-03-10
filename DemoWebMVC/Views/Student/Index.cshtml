@@ -1,0 +1,35 @@
+@model IEnumerable<DemoMVC.Models.Entities.Student>
+
+<h2>Danh sách sinh viên</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã sinh viên</th>
+            <th>Họ và Tên</th>
+            <th>Tuổi</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var std in Model)
+            {
+                <tr>
+                    <td>@std.StudentCode</td>
+                    <td>@std.FullName</td>
+                    <td>@std.Age</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@std.StudentCode">Sửa</a> |
+                        <a asp-action="Delete" asp-route-id="@std.StudentCode" onclick="return confirm('Xóa?')">Xoá</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
+</p>
