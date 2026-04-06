@@ -22,20 +22,34 @@ namespace DemoWebMVC.Controllers
         }
 
         // --- 2. THÊM MỚI (Create) ---
-        public IActionResult Create() => View();
+        // --- 2. THÊM MỚI (Create) ---
 
-        [HttpPost]
-        public IActionResult Create(Student std)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Students.Add(std);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(std);
-        }
+// Hàm này chỉ để mở trang nhập liệu (GET)
+public IActionResult Create()
+{
+    return View();
+}
 
+// Hàm này xử lý khi người dùng bấm nút "Lưu lại" (POST)
+[HttpPost]
+[ValidateAntiForgeryToken] // Thêm lớp bảo mật này vào
+public IActionResult Create(Student std) // std là đối tượng Student nhận từ Form
+{
+    // Bước kiểm tra quan trọng nhất của buổi học số 7
+    if (ModelState.IsValid)
+    {
+        // Nếu các luật [Required], [Range]... ở Model đều thỏa mãn:
+        _context.Students.Add(std);
+        _context.SaveChanges();
+        
+        // Lưu xong thì quay về trang danh sách (Index)
+        return RedirectToAction("Index");
+    }
+
+    // Nếu dữ liệu vi phạm luật (ví dụ: FullName để trống)
+    // Trả lại View "Create" kèm theo đối tượng "std" để hiển thị lỗi ra màn hình
+    return View(std);
+}
         // --- 3. CHỈNH SỬA (Edit) ---
         // Đổi 'int id' thành 'string id' vì StudentCode là kiểu chuỗi
         public IActionResult Edit(string id) 
