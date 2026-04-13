@@ -3,6 +3,7 @@ using DemoMVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoWebMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260407010056_AddFacultyFieldToStudent")]
+    partial class AddFacultyFieldToStudent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +38,7 @@ namespace DemoWebMVC.Migrations
 
                     b.HasKey("FacultyID");
 
-                    b.ToTable("Faculties");
+                    b.ToTable("Faculty");
                 });
 
             modelBuilder.Entity("DemoMVC.Models.Entities.Product", b =>
@@ -66,7 +69,7 @@ namespace DemoWebMVC.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FacultyID")
+                    b.Property<int>("FacultyID")
                         .HasColumnType("int");
 
                     b.Property<string>("FullName")
@@ -85,7 +88,9 @@ namespace DemoWebMVC.Migrations
                 {
                     b.HasOne("DemoMVC.Models.Entities.Faculty", "Faculty")
                         .WithMany("Students")
-                        .HasForeignKey("FacultyID");
+                        .HasForeignKey("FacultyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Faculty");
                 });

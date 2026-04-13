@@ -1,27 +1,50 @@
 @model DemoMVC.Models.Entities.Student
 
-<h2>Chỉnh sửa Sinh viên</h2>
+@{
+    ViewData["Title"] = "Chỉnh sửa Sinh viên";
+}
+
+<h1>Chỉnh sửa Sinh viên</h1>
+CON GA 
+<hr />
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" method="post">
-            @* Dòng này cực kỳ quan trọng để giữ ID khi gửi lên Controller *@
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            @* Dòng này cực kỳ quan trọng để máy biết đang sửa sinh viên nào *@
             <input type="hidden" asp-for="StudentCode" />
 
-            <div class="form-group">
-                <label>Họ và Tên</label>
+            <div class="form-group mb-3">
+                <label class="control-label">Họ và Tên</label>
                 <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Tuổi</label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+
+            @* ĐÂY LÀ ĐOẠN HIỂN THỊ CHỌN KHOA *@
+            <div class="form-group mb-3">
+                <label class="control-label">Khoa</label>
+                <select asp-for="FacultyID" class="form-control" asp-items="ViewBag.FacultyID">
+                    <option value="">-- Chọn khoa --</option>
+                </select>
+                <span asp-validation-for="FacultyID" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label>Tuổi</label>
-                <input asp-for="Age" class="form-control" />
-            </div>
-
-            <div class="form-group mt-3">
                 <button type="submit" class="btn btn-success">Cập nhật</button>
                 <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
             </div>
         </form>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

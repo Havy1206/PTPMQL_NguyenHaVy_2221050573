@@ -1,12 +1,13 @@
-@model IEnumerable<DemoMVC.Models.Entities.Student>
+@model IEnumerable<DemoMVC.Models.StudentVM>
 
-<h2>Danh sách sinh viên</h2>
+<h2>Danh sách Sinh viên</h2>
 
-<table class="table">
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>Mã sinh viên</th>
             <th>Họ và Tên</th>
+            <th>Khoa</th> 
             <th>Tuổi</th>
             <th>Thao tác</th>
         </tr>
@@ -19,9 +20,11 @@
                 <tr>
                     <td>@std.StudentCode</td>
                     <td>@std.FullName</td>
-                    <td>@std.Age</td>
+                    <td class="text-primary fw-bold">@std.FacultyName</td> 
+                    @* THÊM DÒNG NÀY ĐỂ HIỆN TUỔI *@
+        <td>@std.Age</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@std.StudentCode">Sửa</a> |
+                        <a asp-action="Edit" asp-route-id="@std.StudentCode" class="btn btn-warning btn-sm">Sửa</a> |
                         <a asp-action="Delete" asp-route-id="@std.StudentCode" class="btn btn-outline-danger btn-sm">Xóa</a>
                     </td>
                 </tr>
@@ -31,5 +34,5 @@
 </table>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
+    <a asp-action="Create" asp-controller="Student" class="btn btn-primary">Thêm mới sinh viên</a>
 </p>

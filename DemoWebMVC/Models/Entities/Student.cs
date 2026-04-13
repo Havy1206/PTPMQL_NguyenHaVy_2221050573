@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; // Cần dòng này để nhận diện [ForeignKey]
 
 namespace DemoMVC.Models.Entities
 {
@@ -14,9 +15,17 @@ namespace DemoMVC.Models.Entities
 
         [Range(1, 100, ErrorMessage = "Tuổi phải từ 1 đến 100")]
         public int? Age { get; set; }
-        
-        // Bạn có thể thêm các thuộc tính mới nếu muốn bài tập phong phú hơn
+
         [EmailAddress(ErrorMessage = "Email không đúng định dạng")]
         public string? Email { get; set; }
-    }
-}
+
+        
+
+        // 1. Khai báo cột khóa ngoại (Foreign Key)
+        public int? FacultyID { get; set; }
+
+        // 2. Navigation Property: Cho phép truy cập thông tin Khoa từ Sinh viên
+        [ForeignKey("FacultyID")]
+        public virtual Faculty? Faculty { get; set; }
+    } // Kết thúc class Student
+} // Kết thúc namespace

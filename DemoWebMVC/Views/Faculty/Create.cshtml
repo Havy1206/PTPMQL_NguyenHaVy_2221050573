@@ -1,0 +1,39 @@
+@model DemoMVC.Models.Entities.Faculty
+
+@{
+    ViewData["Title"] = "Thêm mới Khoa";
+}
+
+<div class="container mt-4">
+    <h1 class="text-primary">Tạo mới</h1>
+    <h4>Thông tin Khoa</h4>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            @* Quan trọng: Phải có method="post" *@
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="FacultyName" class="control-label fw-bold">Tên Khoa</label>
+                    <input asp-for="FacultyName" class="form-control" placeholder="Nhập tên khoa (VD: Marketing...)" />
+                    <span asp-validation-for="FacultyName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="bi bi-check-lg"></i> Create
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary ms-2">
+                        Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,32 +1,39 @@
 @model DemoMVC.Models.Entities.Student
 
-<h2>Thêm sinh viên mới</h2>
+@{
+    ViewData["Title"] = "Thêm mới Sinh viên";
+}
 
+<h1>Thêm mới Sinh viên</h1>
+<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label class="control-label">Mã sinh viên</label>
                 <input asp-for="StudentCode" class="form-control" />
                 <span asp-validation-for="StudentCode" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label class="control-label">Họ và Tên</label>
                 <input asp-for="FullName" class="form-control" />
                 <span asp-validation-for="FullName" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label class="control-label">Tuổi</label>
-                <input asp-for="Age" class="form-control" />
-                <span asp-validation-for="Age" class="text-danger"></span>
+            @* ĐOẠN QUAN TRỌNG: Hiển thị chọn Khoa *@
+            <div class="form-group mb-3">
+                <label class="control-label">Khoa</label>
+                <select asp-for="FacultyID" class="form-control" asp-items="ViewBag.FacultyID">
+                    <option value="">-- Chọn khoa --</option>
+                </select>
+                <span asp-validation-for="FacultyID" class="text-danger"></span>
             </div>
 
-            <div class="form-group mt-3">
-                <input type="submit" value="Lưu lại" class="btn btn-primary" />
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Lưu lại</button>
                 <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
             </div>
         </form>
