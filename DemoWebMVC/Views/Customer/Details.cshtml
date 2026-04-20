@@ -1,0 +1,19 @@
+@model DemoMVC.Models.Entities.Customer
+
+<h3>Chi tiết đơn hàng của: @Model.FullName</h3>
+
+@if (Model.Orders == null || !Model.Orders.Any()) {
+    <p>Khách hàng này chưa có đơn hàng nào.</p>
+} else {
+    @foreach (var order in Model.Orders) {
+        <div style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
+            <p><strong>Mã đơn:</strong> @order.OrderId | <strong>Ngày đặt:</strong> @order.OrderDate.ToShortDateString()</p>
+            <ul>
+              @foreach (var detail in order.OrderDetails ?? Enumerable.Empty<DemoMVC.Models.Entities.OrderDetail>()) {
+                    <li>@detail.Product?.ProductName - Số lượng: @detail.Quantity</li>
+                }
+            </ul>
+        </div>
+    }
+}
+<a asp-action="Index">Quay lại danh sách</a>

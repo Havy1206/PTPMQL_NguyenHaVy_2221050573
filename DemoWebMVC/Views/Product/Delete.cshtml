@@ -1,0 +1,22 @@
+@model DemoMVC.Models.Entities.Product
+
+<h2>Xóa sản phẩm</h2>
+<h4 class="text-danger">Bạn có chắc chắn muốn xóa sản phẩm này không?</h4>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Tên sản phẩm:</dt>
+            <dd class="col-sm-9">@Model.ProductName</dd>
+
+            <dt class="col-sm-3">Giá niêm yết:</dt>
+            <dd class="col-sm-9">@Model.Price.ToString("N0") VNĐ</dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="ProductID" />
+            <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+            <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+@model IEnumerable<DemoMVC.Models.Entities.Customer>
+
+<h2>Danh sách khách hàng</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Thêm khách hàng mới</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Họ Tên</th>
+            <th>Địa chỉ</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>@item.FullName</td>
+                <td>@item.Address</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a asp-action="Details" asp-route-id="@item.CustomerId" class="btn btn-info btn-sm">
+                             Xem lịch sử
+                        </a>
+                        
+                        <a asp-action="Edit" asp-route-id="@item.CustomerId" class="btn btn-warning btn-sm">
+                            Sửa
+                        </a>
+                        
+                        <a asp-action="Delete" asp-route-id="@item.CustomerId" class="btn btn-danger btn-sm">
+                            Xóa
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

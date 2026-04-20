@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using DemoMVC.Data; 
 using DemoMVC.Models.Entities; 
+using DemoMVC.Models; 
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using Microsoft.EntityFrameworkCore; // 1. BẮT BUỘC có dòng này để dùng .Include()
-using DemoMVC.Models; // 2. Để nhận diện StudentVM
 
 namespace DemoWebMVC.Controllers
 {
@@ -16,18 +17,16 @@ namespace DemoWebMVC.Controllers
             _context = context;
         }
 
-        // --- 1. HIỂN THỊ DANH SÁCH (Sửa lại ở đây) ---
+        // --- 1. HIỂN THỊ DANH SÁCH ---
         public IActionResult Index()
         {
-            // Sử dụng LINQ để "nối" bảng Students và Faculties
             var data = _context.Students
-                .Include(s => s.Faculty) // Kéo dữ liệu từ bảng Faculty sang
+                .Include(s => s.Faculty) 
                 .Select(s => new StudentVM 
                 {
                     StudentCode = s.StudentCode,
                     FullName = s.FullName,
-                    // Nếu sinh viên chưa có khoa thì hiện "N/A"
-                    Age = s.Age, // BẮT BUỘC phải có dòng này
+                    Age = s.Age,
                     FacultyName = s.Faculty != null ? s.Faculty.FacultyName : "Chưa có khoa"
                 })
                 .ToList();
@@ -35,56 +34,69 @@ namespace DemoWebMVC.Controllers
             return View(data);
         }
 
-        // --- 2. THÊM MỚI (GET) - Sửa để hiện danh sách chọn Khoa ---
+        // --- 2. THÊM MỚI (GET) ---
         public IActionResult Create()
         {
-            // Gửi danh sách khoa sang View để làm Dropdown
-            ViewBag.FacultyID = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_context.Faculties, "FacultyID", "FacultyName");
+            ViewBag.FacultyID = new SelectList(_context.Faculties, "FacultyID", "FacultyName");
             return View();
         }
 
+        // --- 2. THÊM MỚI (POST) - Đã fix lỗi trùng mã ---
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Student std)
         {
+            // Bỏ qua kiểm tra object Faculty liên kết
+            ModelState.Remove("Faculty");
+
+            // KIỂM TRA TRÙNG MÃ SINH VIÊN (Fix lỗi PK Students)
+            bool isExist = _context.Students.Any(s => s.StudentCode == std.StudentCode);
+            if (isExist)
+            {
+                ModelState.AddModelError("StudentCode", "Mã sinh viên này đã tồn tại!");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Students.Add(std);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            // Nếu lỗi, phải gửi lại danh sách khoa để Dropdown không bị trống
-            ViewBag.FacultyID = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_context.Faculties, "FacultyID", "FacultyName");
+            
+            // Nếu lỗi thì load lại danh sách khoa cho Dropdown
+            ViewBag.FacultyID = new SelectList(_context.Faculties, "FacultyID", "FacultyName", std.FacultyID);
             return View(std);
         }
 
-        // --- 3. CHỈNH SỬA (Edit) ---
+        // --- 3. CHỈNH SỬA (GET) ---
         public IActionResult Edit(string id) 
         {
             if (id == null) return NotFound();
             var std = _context.Students.Find(id);
             if (std == null) return NotFound();
             
-            // Tương tự, gửi danh sách khoa cho trang Edit
-            ViewBag.FacultyID = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_context.Faculties, "FacultyID", "FacultyName", std.FacultyID);
+            ViewBag.FacultyID = new SelectList(_context.Faculties, "FacultyID", "FacultyName", std.FacultyID);
             return View(std);
         }
 
+        // --- 3. CHỈNH SỬA (POST) ---
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(Student std)
         {
+            ModelState.Remove("Faculty");
+
             if (ModelState.IsValid)
             {
-                _context.Students.Update(std);
+                _context.Update(std);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.FacultyID = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_context.Faculties, "FacultyID", "FacultyName", std.FacultyID);
+            ViewBag.FacultyID = new SelectList(_context.Faculties, "FacultyID", "FacultyName", std.FacultyID);
             return View(std);
         }
 
-        // --- 4. XÓA (Delete) ---
-        [HttpGet]
+        // --- 4. XÓA ---
         public IActionResult Delete(string id)
         {
             if (id == null) return NotFound();

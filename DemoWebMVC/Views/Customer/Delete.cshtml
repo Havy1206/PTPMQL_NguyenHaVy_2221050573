@@ -1,0 +1,25 @@
+@model DemoMVC.Models.Entities.Customer
+
+@{
+    ViewData["Title"] = "Xóa khách hàng";
+}
+
+<h2 class="text-danger">Xóa khách hàng</h2>
+<h3>Bạn có chắc chắn muốn xóa khách hàng này không?</h3>
+<hr />
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">Họ và Tên:</dt>
+        <dd class="col-sm-9">@Model.FullName</dd>
+
+        <dt class="col-sm-3">Địa chỉ:</dt>
+        <dd class="col-sm-9">@Model.Address</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="CustomerId" />
+        <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+        <a asp-action="Index" class="btn btn-secondary">Hủy bỏ</a>
+    </form>
+</div>
