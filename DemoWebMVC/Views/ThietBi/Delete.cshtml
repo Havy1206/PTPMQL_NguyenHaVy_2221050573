@@ -1,0 +1,11 @@
+@model DemoMVC.Models.Entities.ThietBi
+
+<div class="container mt-4">
+    <h2 class="text-danger">Xóa Thiết Bị</h2>
+    <h3>Bạn có chắc chắn muốn xóa thiết bị "@Model.TenTB"?</h3>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Xóa ngay" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Hủy bỏ</a>
+    </form>
+</div>

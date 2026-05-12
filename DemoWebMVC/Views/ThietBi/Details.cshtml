@@ -1,0 +1,15 @@
+@model DemoMVC.Models.Entities.ThietBi
+
+<div class="container mt-4">
+    <h2>Chi tiết thiết bị</h2>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Tên thiết bị:</dt> <dd class="col-sm-9">@Model.TenTB</dd>
+        <dt class="col-sm-3">Loại:</dt> <dd class="col-sm-9">@Model.LoaiThietBi?.TenLoai</dd>
+        <dt class="col-sm-3">Nhà cung cấp:</dt> <dd class="col-sm-9">@Model.NhaCungCap?.TenNCC</dd>
+        <dt class="col-sm-3">Giá:</dt> <dd class="col-sm-9">@Model.DonGia.ToString("N0") đ</dd>
+        <dt class="col-sm-3">Số lượng tồn:</dt> <dd class="col-sm-9">@Model.SoLuongTon</dd>
+    </dl>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</div>

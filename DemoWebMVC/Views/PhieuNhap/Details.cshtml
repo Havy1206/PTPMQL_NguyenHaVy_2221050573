@@ -1,0 +1,58 @@
+@model DemoMVC.Models.Entities.PhieuNhap
+@{ ViewData["Title"] = "Chi tiết Phiếu Nhập"; }
+
+<div class="container mt-4">
+    <div class="card shadow border-primary">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">CHI TIẾT PHIẾU NHẬP: PN-@Model.Id.ToString("D4")</h4>
+            <span class="badge bg-light text-primary">Ngày: @Model.NgayNhap.ToString("dd/MM/yyyy HH:mm")</span>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h5><i class="bi bi-info-circle"></i> Thông tin chung</h5>
+                    <p><strong>Mã phiếu:</strong> PN-@Model.Id</p>
+                    <p><strong>Loại nghiệp vụ:</strong> Nhập kho thiết bị</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <h5>Tổng giá trị nhập</h5>
+                    <h2 class="text-success">@Model.TongTien.ToString("N0") <small>VNĐ</small></h2>
+                </div>
+            </div>
+
+            <h5 class="mb-3"> Danh sách thiết bị trong phiếu:</h5>
+            <table class="table table-hover table-bordered">
+                <thead class="table-light">
+                    <tr class="text-center">
+                        <th>STT</th>
+                        <th>Tên Thiết Bị</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá nhập</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 1; }
+                    @foreach (var item in Model.ChiTietPhieuNhaps!)
+                    {
+                        <tr>
+                            <td class="text-center">@(i++)</td>
+                            <td>@item.ThietBi?.TenTB</td>
+                            <td class="text-center">@item.SoLuong</td>
+                            <td class="text-end">@item.DonGiaNhap.ToString("N0") đ</td>
+                            <td class="text-end fw-bold">@((item.SoLuong * item.DonGiaNhap).ToString("N0")) đ</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer bg-white">
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Quay lại danh sách
+            </a>
+            <button onclick="window.print()" class="btn btn-outline-dark ms-2">
+                <i class="bi bi-printer"></i> In phiếu nhập
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+@model DemoMVC.Models.Entities.NhaCungCap
+@{ ViewData["Title"] = "Xóa Nhà cung cấp"; }
+
+<div class="container mt-4">
+    <h2 class="text-danger">Xóa Nhà cung cấp</h2>
+    <h3>Bạn có chắc chắn muốn xóa dữ liệu này không?</h3>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.TenNCC)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.TenNCC)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.SoDienThoai)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.SoDienThoai)</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Xóa ngay" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary ms-2">Hủy bỏ</a>
+    </form>
+</div>

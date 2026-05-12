@@ -1,0 +1,28 @@
+@model DemoMVC.Models.Entities.LoaiThietBi
+@{ ViewData["Title"] = "Thêm Loại thiết bị"; }
+
+<div class="container mt-4">
+    <h2>Thêm mới Loại thiết bị</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="mb-3">
+                    <label asp-for="TenLoai" class="control-label">Tên Loại Thiết Bị</label>
+                    <input asp-for="TenLoai" class="form-control" />
+                    <span asp-validation-for="TenLoai" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="MoTa" class="control-label">Mô Tả</label>
+                    <input asp-for="MoTa" class="form-control" />
+                    <span asp-validation-for="MoTa" class="text-danger"></span>
+                </div>
+                <div class="mb-3 mt-4">
+                    <input type="submit" value="Lưu dữ liệu" class="btn btn-success" />
+                    <a asp-action="Index" class="btn btn-secondary ms-2">Quay lại danh sách</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

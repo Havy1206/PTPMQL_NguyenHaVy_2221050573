@@ -1,0 +1,43 @@
+@model IEnumerable<DemoMVC.Models.Entities.NhaCungCap>
+
+<div class="container mt-4">
+    <h2>Danh sách Nhà cung cấp</h2>
+    <a asp-action="Create" class="btn btn-primary mb-3">Thêm mới</a>
+
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Tên Nhà Cung Cấp</th> 
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
+                <th class="text-center" style="width: 200px;">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.TenNCC</td> 
+                        <td>@item.SoDienThoai</td> 
+                        <td>@item.DiaChi</td> 
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white">Chi tiết</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center text-muted">Chưa có dữ liệu nhà cung cấp.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

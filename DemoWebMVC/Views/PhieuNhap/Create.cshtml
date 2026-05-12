@@ -1,0 +1,25 @@
+@model DemoMVC.Models.Entities.PhieuNhap
+
+<div class="container mt-4">
+    <h2 class="text-primary">Lập Phiếu Nhập Kho</h2>
+    <form asp-action="Create" method="post" class="shadow p-4 bg-light">
+        <div class="mb-3">
+            <label class="control-label fw-bold">Chọn Thiết Bị Nhập:</label>
+            <select name="ThietBiId" class="form-control" asp-items="ViewBag.ThietBiId" required>
+                <option value="">-- Chọn Thiết Bị --</option>
+            </select>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="control-label fw-bold">Số lượng nhập:</label>
+                <input type="number" name="SoLuong" class="form-control" min="1" required />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="control-label fw-bold">Đơn giá nhập:</label>
+                <input type="number" name="DonGiaNhap" class="form-control" min="0" required />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Nhập Kho</button>
+        <a asp-action="Index" class="btn btn-secondary mt-2 ms-2">Hủy bỏ</a>
+    </form>
+</div>

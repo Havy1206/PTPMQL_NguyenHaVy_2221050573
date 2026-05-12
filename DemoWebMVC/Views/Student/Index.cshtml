@@ -1,38 +1,84 @@
 @model IEnumerable<DemoMVC.Models.StudentVM>
 
-<h2>Danh sách Sinh viên</h2>
+@{
+    ViewData["Title"] = "Danh sách Sinh viên";
+}
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Mã sinh viên</th>
-            <th>Họ và Tên</th>
-            <th>Khoa</th> 
-            <th>Tuổi</th>
-            <th>Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            @foreach (var std in Model)
+<div class="container mt-4">
+    <h2 class="text-center mb-4">QUẢN LÝ DANH SÁCH SINH VIÊN</h2>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Nhập dữ liệu từ Excel</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Import" asp-controller="Student" method="post" enctype="multipart/form-data" class="row g-3">
+                @Html.AntiForgeryToken()
+                <div class="col-auto">
+                    <input type="file" name="file" class="form-control" accept=".xlsx, .xls" required />
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-file-earmark-excel"></i> Tải lên & Import
+                    </button>
+                </div>
+                <div class="col-auto">
+                    <a href="/Student/Create" class="btn btn-outline-primary">Thêm thủ công</a>
+                </div>
+            </form>
+
+            @if (TempData["Success"] != null)
             {
-                <tr>
-                    <td>@std.StudentCode</td>
-                    <td>@std.FullName</td>
-                    <td class="text-primary fw-bold">@std.FacultyName</td> 
-                    @* THÊM DÒNG NÀY ĐỂ HIỆN TUỔI *@
-        <td>@std.Age</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@std.StudentCode" class="btn btn-warning btn-sm">Sửa</a> |
-                        <a asp-action="Delete" asp-route-id="@std.StudentCode" class="btn btn-outline-danger btn-sm">Xóa</a>
-                    </td>
-                </tr>
+                <div class="alert alert-success mt-3 mb-0">
+                    @TempData["Success"]
+                </div>
             }
-        }
-    </tbody>
-</table>
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger mt-3 mb-0">
+                    @TempData["Error"]
+                </div>
+            }
+        </div>
+    </div>
 
-<p>
-    <a asp-action="Create" asp-controller="Student" class="btn btn-primary">Thêm mới sinh viên</a>
-</p>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Mã SV</th>
+                        <th>Họ tên</th>
+                        <th>Tuổi</th>
+                        <th>Khoa</th>
+                        <th class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.StudentCode</td>
+                                <td>@item.FullName</td>
+                                <td>@item.Age</td>
+                                <td>@item.FacultyName</td>
+                                <td class="text-center">
+                                    <a asp-action="Edit" asp-route-id="@item.StudentCode" class="btn btn-sm btn-warning">Sửa</a>
+                                    <a asp-action="Delete" asp-route-id="@item.StudentCode" class="btn btn-sm btn-danger">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">Chưa có dữ liệu sinh viên.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

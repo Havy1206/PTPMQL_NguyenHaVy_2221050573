@@ -1,0 +1,46 @@
+@model IEnumerable<DemoMVC.Models.Entities.PhieuXuat>
+@{ ViewData["Title"] = "Danh sách Phiếu Xuất"; }
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-danger">Lịch sử Xuất Kho</h2>
+        <a asp-action="Create" class="btn btn-danger">
+            <i class="bi bi-dash-circle"></i> Lập Phiếu Xuất Mới
+        </a>
+    </div>
+
+    <table class="table table-bordered table-hover shadow-sm bg-white">
+        <thead class="table-warning">
+            <tr class="text-center">
+                <th>Mã Phiếu</th>
+                <th>Ngày Xuất</th>
+                <th>Tổng Tiền</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr class="text-center">
+                        <td>PX-@item.Id.ToString("D4")</td>
+                        <td>@item.NgayXuat.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td class="fw-bold text-danger">@item.TongTien.ToString("N0") đ</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white">Chi tiết</a>
+                    
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center text-muted">Chưa có phiếu xuất nào.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="/" class="btn btn-secondary">Quay lại trang chủ</a>
+</div>

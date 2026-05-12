@@ -1,0 +1,21 @@
+@model DemoMVC.Models.Entities.NhaCungCap
+@{ ViewData["Title"] = "Chi tiết Nhà cung cấp"; }
+
+<div class="container mt-4">
+    <h2>Chi tiết Nhà cung cấp</h2>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Tên Nhà Cung Cấp</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.TenNCC)</dd>
+
+        <dt class="col-sm-3">Số Điện Thoại</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.SoDienThoai)</dd>
+
+        <dt class="col-sm-3">Địa Chỉ</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.DiaChi)</dd>
+    </dl>
+    <div class="mt-4">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Sửa</a>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Quay lại danh sách</a>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+@model DemoMVC.Models.Entities.ThietBi
+
+<div class="container mt-4">
+    <h2>Thêm mới Thiết Bị</h2>
+    <form asp-action="Create" method="post">
+        <div class="mb-3">
+            <label class="control-label">Tên Thiết Bị</label>
+            <input asp-for="TenTB" class="form-control" />
+        </div>
+        
+        <div class="mb-3">
+            <label class="control-label">Loại Thiết Bị</label>
+            <select asp-for="LoaiThietBiId" class="form-control" asp-items="ViewBag.LoaiThietBiId">
+                <option value="">-- Chọn Loại Thiết Bị --</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="control-label">Nhà Cung Cấp</label>
+            <select asp-for="NhaCungCapId" class="form-control" asp-items="ViewBag.NhaCungCapId">
+                <option value="">-- Chọn Nhà Cung Cấp --</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="control-label">Đơn Giá</label>
+            <input asp-for="DonGia" class="form-control" type="number" />
+        </div>
+
+        <div class="mb-3">
+            <label class="control-label">Số Lượng Tồn</label>
+            <input asp-for="SoLuongTon" class="form-control" type="number" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Lưu dữ liệu</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Quay lại</a>
+    </form>
+</div>

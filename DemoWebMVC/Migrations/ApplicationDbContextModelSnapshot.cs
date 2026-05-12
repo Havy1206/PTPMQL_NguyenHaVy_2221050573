@@ -22,6 +22,64 @@ namespace DemoWebMVC.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("DemoMVC.Models.Entities.ChiTietPhieuNhap", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("DonGiaNhap")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PhieuNhapId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoLuong")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ThietBiId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhieuNhapId");
+
+                    b.HasIndex("ThietBiId");
+
+                    b.ToTable("ChiTietPhieuNhaps");
+                });
+
+            modelBuilder.Entity("DemoMVC.Models.Entities.ChiTietPhieuXuat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("DonGiaXuat")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PhieuXuatId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoLuong")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ThietBiId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhieuXuatId");
+
+                    b.HasIndex("ThietBiId");
+
+                    b.ToTable("ChiTietPhieuXuats");
+                });
+
             modelBuilder.Entity("DemoMVC.Models.Entities.Customer", b =>
                 {
                     b.Property<int>("CustomerId")
@@ -57,6 +115,50 @@ namespace DemoWebMVC.Migrations
                     b.HasKey("FacultyID");
 
                     b.ToTable("Faculties");
+                });
+
+            modelBuilder.Entity("DemoMVC.Models.Entities.LoaiThietBi", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("MoTa")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenLoai")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoaiThietBis");
+                });
+
+            modelBuilder.Entity("DemoMVC.Models.Entities.NhaCungCap", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DiaChi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SoDienThoai")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenNCC")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NhaCungCaps");
                 });
 
             modelBuilder.Entity("DemoMVC.Models.Entities.Order", b =>
@@ -109,6 +211,44 @@ namespace DemoWebMVC.Migrations
                     b.ToTable("OrderDetails");
                 });
 
+            modelBuilder.Entity("DemoMVC.Models.Entities.PhieuNhap", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("NgayNhap")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TongTien")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PhieuNhaps");
+                });
+
+            modelBuilder.Entity("DemoMVC.Models.Entities.PhieuXuat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("NgayXuat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TongTien")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PhieuXuats");
+                });
+
             modelBuilder.Entity("DemoMVC.Models.Entities.Product", b =>
                 {
                     b.Property<int>("ProductID")
@@ -156,6 +296,77 @@ namespace DemoWebMVC.Migrations
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("DemoMVC.Models.Entities.ThietBi", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("DonGia")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("LoaiThietBiId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NhaCungCapId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoLuongTon")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TenTB")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LoaiThietBiId");
+
+                    b.HasIndex("NhaCungCapId");
+
+                    b.ToTable("ThietBis");
+                });
+
+            modelBuilder.Entity("DemoMVC.Models.Entities.ChiTietPhieuNhap", b =>
+                {
+                    b.HasOne("DemoMVC.Models.Entities.PhieuNhap", "PhieuNhap")
+                        .WithMany("ChiTietPhieuNhaps")
+                        .HasForeignKey("PhieuNhapId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DemoMVC.Models.Entities.ThietBi", "ThietBi")
+                        .WithMany()
+                        .HasForeignKey("ThietBiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PhieuNhap");
+
+                    b.Navigation("ThietBi");
+                });
+
+            modelBuilder.Entity("DemoMVC.Models.Entities.ChiTietPhieuXuat", b =>
+                {
+                    b.HasOne("DemoMVC.Models.Entities.PhieuXuat", "PhieuXuat")
+                        .WithMany("ChiTietPhieuXuats")
+                        .HasForeignKey("PhieuXuatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DemoMVC.Models.Entities.ThietBi", "ThietBi")
+                        .WithMany()
+                        .HasForeignKey("ThietBiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PhieuXuat");
+
+                    b.Navigation("ThietBi");
+                });
+
             modelBuilder.Entity("DemoMVC.Models.Entities.Order", b =>
                 {
                     b.HasOne("DemoMVC.Models.Entities.Customer", "Customer")
@@ -195,6 +406,25 @@ namespace DemoWebMVC.Migrations
                     b.Navigation("Faculty");
                 });
 
+            modelBuilder.Entity("DemoMVC.Models.Entities.ThietBi", b =>
+                {
+                    b.HasOne("DemoMVC.Models.Entities.LoaiThietBi", "LoaiThietBi")
+                        .WithMany("ThietBis")
+                        .HasForeignKey("LoaiThietBiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DemoMVC.Models.Entities.NhaCungCap", "NhaCungCap")
+                        .WithMany("ThietBis")
+                        .HasForeignKey("NhaCungCapId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LoaiThietBi");
+
+                    b.Navigation("NhaCungCap");
+                });
+
             modelBuilder.Entity("DemoMVC.Models.Entities.Customer", b =>
                 {
                     b.Navigation("Orders");
@@ -205,9 +435,29 @@ namespace DemoWebMVC.Migrations
                     b.Navigation("Students");
                 });
 
+            modelBuilder.Entity("DemoMVC.Models.Entities.LoaiThietBi", b =>
+                {
+                    b.Navigation("ThietBis");
+                });
+
+            modelBuilder.Entity("DemoMVC.Models.Entities.NhaCungCap", b =>
+                {
+                    b.Navigation("ThietBis");
+                });
+
             modelBuilder.Entity("DemoMVC.Models.Entities.Order", b =>
                 {
                     b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("DemoMVC.Models.Entities.PhieuNhap", b =>
+                {
+                    b.Navigation("ChiTietPhieuNhaps");
+                });
+
+            modelBuilder.Entity("DemoMVC.Models.Entities.PhieuXuat", b =>
+                {
+                    b.Navigation("ChiTietPhieuXuats");
                 });
 
             modelBuilder.Entity("DemoMVC.Models.Entities.Product", b =>
