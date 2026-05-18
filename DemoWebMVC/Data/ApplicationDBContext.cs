@@ -1,3 +1,4 @@
+using DemoMVC.Controllers;
 using DemoMVC.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,5 +37,7 @@ namespace DemoMVC.Data
         // 5. Quản lý Xuất kho (Phần nâng cao)
          public DbSet<PhieuXuat> PhieuXuats { get; set; }
          public DbSet<ChiTietPhieuXuat> ChiTietPhieuXuats { get; set; }
+
+         public DbSet<Book> Books { get; set; }
     }
 }

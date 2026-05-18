@@ -12,6 +12,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 var app = builder.Build();
 
+// ==========================================
+// THÊM ĐOẠN CODE NÀY ĐỂ CHẠY DỮ LIỆU GIẢ
+// ==========================================
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    DbInitializer.Initialize(context); 
+}
+// ==========================================
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -31,8 +41,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-// http://localhost:5262/controller/Action/
-// http://localhost:5262/ <=> http://localhost:5262/Home/
-// http://localhost:5262/Demo/Test
 
 app.Run();

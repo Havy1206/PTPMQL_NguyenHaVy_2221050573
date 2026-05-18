@@ -3,10 +3,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using DemoMVC.Data; 
 using DemoMVC.Models.Entities; 
 using DemoMVC.Models; 
+using DemoMVC.ViewModels; 
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using OfficeOpenXml;
 using System.IO;
+using System.Threading.Tasks; 
+using System.Collections.Generic;
 
 namespace DemoMVC.Controllers
 {
@@ -19,11 +22,25 @@ namespace DemoMVC.Controllers
             _context = context;
         }
 
-        // --- 1. HIỂN THỊ DANH SÁCH ---
+        // --- 1. HIỂN THỊ DANH SÁCH (CHỈ LOAD KHUNG GIAO DIỆN) ---
         public IActionResult Index()
         {
-            var data = _context.Students
-                .Include(s => s.Faculty) 
+            return View();
+        }
+
+        // --- 1.1 HÀM TRẢ VỀ DỮ LIỆU PHÂN TRANG (DÙNG CHO AJAX) ---
+        public async Task<IActionResult> GetStudents(int page = 1, int pageSize = 10)
+        {
+            var query = _context.Students
+                .Include(s => s.Faculty)
+                .AsNoTracking(); 
+
+            var totalItems = await query.CountAsync();
+
+            var students = await query
+                .OrderBy(s => s.StudentCode) 
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(s => new StudentVM 
                 {
                     StudentCode = s.StudentCode,
@@ -31,12 +48,20 @@ namespace DemoMVC.Controllers
                     Age = s.Age,
                     FacultyName = s.Faculty != null ? s.Faculty.FacultyName : "Chưa có khoa"
                 })
-                .ToList();
+                .ToListAsync();
 
-            return View(data);
+            var result = new PagedResult<StudentVM>
+            {
+                Items = students,
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalItems = totalItems
+            };
+
+            return PartialView("_StudentTable", result);
         }
 
-        // --- 2. HÀM IMPORT EXCEL (Đã fix lỗi và thêm dò tìm tên Khoa) ---
+        // --- 2. HÀM IMPORT EXCEL ---
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Import(IFormFile file)
@@ -46,9 +71,6 @@ namespace DemoMVC.Controllers
                 TempData["Error"] = "Vui lòng chọn file Excel!";
                 return RedirectToAction(nameof(Index));
             }
-
-            // Cấu hình bản quyền EPPlus chuẩn mới
-            // ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
 
             var studentList = new List<Student>();
 
@@ -66,11 +88,9 @@ namespace DemoMVC.Controllers
                         
                         if (string.IsNullOrEmpty(sCode)) continue;
 
-                        // Kiểm tra trùng mã SV trong Database
                         bool isExist = _context.Students.Any(s => s.StudentCode == sCode);
                         if (isExist) continue;
 
-                        // --- LOGIC DÒ TÌM TÊN KHOA ---
                         var facultyNameExcel = worksheet.Cells[row, 5].Value?.ToString()?.Trim();
                         int? facultyId = null;
 
@@ -85,15 +105,12 @@ namespace DemoMVC.Controllers
                             }
                         }
 
-                        // --- MAPPING DỮ LIỆU ---
                         var std = new Student
                         {
                             StudentCode = sCode,
                             FullName = worksheet.Cells[row, 2].Value?.ToString()?.Trim() ?? "Không tên",
-                            // Fix gạch vàng Age
                             Age = worksheet.Cells[row, 3].Value != null ? int.Parse(worksheet.Cells[row, 3].Value.ToString()!) : null,
                             Email = worksheet.Cells[row, 4].Value?.ToString()?.Trim(),
-                            // Gán FacultyID tìm được từ tên khoa
                             FacultyID = facultyId
                         };
                         studentList.Add(std);

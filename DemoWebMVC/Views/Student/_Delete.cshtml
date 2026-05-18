@@ -1,0 +1,24 @@
+@model DemoMVC.Models.Entities.Student
+
+<div class="modal fade" id="deleteStudentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Xác Nhận Xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="deleteStudentForm">
+                <div class="modal-body">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="StudentCode" />
+                    <p>Bạn có chắc chắn muốn xóa sinh viên <strong>@Model.FullName</strong> (@Model.StudentCode)?</p>
+                    <p class="text-danger"><small>Hành động này không thể hoàn tác.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger">Xóa ngay</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
